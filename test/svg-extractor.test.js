@@ -114,6 +114,21 @@ describe('SVGExtractor.extractSvgBlocks', () => {
     const result = extract(lines);
     expect(result).toHaveLength(1);
   });
+
+  test('ignores <svg inside string literals in code', () => {
+    const lines = [
+      "const svgStart = trimmed.indexOf('<svg');",
+      "if (fragment.includes('</svg>')) {",
+    ];
+    expect(extract(lines)).toHaveLength(0);
+  });
+
+  test('ignores <svgElement (partial tag name match)', () => {
+    const lines = [
+      '<svgElement viewBox="0 0 24 24"></svgElement>',
+    ];
+    expect(extract(lines)).toHaveLength(0);
+  });
 });
 
 describe('SVGExtractor.stripCommentLines', () => {
