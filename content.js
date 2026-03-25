@@ -5,8 +5,11 @@
 
 (() => {
   let settings = { enabled: true, autoPreview: true };
-  let svgCount = 0;
   let scanDebounceTimer = null;
+
+  function getSvgCount() {
+    return document.querySelectorAll('.svg-preview-panel .svg-preview-card').length;
+  }
 
   function init() {
     chrome.storage.local.get(['enabled', 'autoPreview'], (result) => {
@@ -29,7 +32,6 @@
 
     for (const { container, svgs } of results) {
       PreviewRenderer.inject(container, svgs, settings.autoPreview);
-      svgCount += svgs.length;
     }
   }
 
@@ -39,7 +41,6 @@
   }
 
   function fullRescan() {
-    svgCount = 0;
     PreviewRenderer.removeAll();
     SVGExtractor.resetScanFlags();
     scanPage();
@@ -89,23 +90,33 @@
     document.addEventListener('turbo:render', fullRescan);
 
     let lastUrl = location.href;
-    const urlObserver = new MutationObserver(() => {
+
+    function onUrlChange() {
       if (location.href !== lastUrl) {
         lastUrl = location.href;
         setTimeout(fullRescan, 500);
       }
-    });
-    urlObserver.observe(document.querySelector('head > title') || document.head, {
-      childList: true,
-      subtree: true,
-      characterData: true,
-    });
+    }
+
+    window.addEventListener('popstate', onUrlChange);
+
+    if (typeof navigation !== 'undefined') {
+      navigation.addEventListener('navigatesuccess', onUrlChange);
+    }
+
+    // Fallback: watch <title> changes as a proxy for SPA navigation.
+    // Scoped to the <title> element only (not all of <head>).
+    const titleEl = document.querySelector('head > title');
+    if (titleEl) {
+      const urlObserver = new MutationObserver(onUrlChange);
+      urlObserver.observe(titleEl, { childList: true, characterData: true, subtree: true });
+    }
   }
 
   function listenForMessages() {
     chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
       if (message.type === 'getSvgCount') {
-        sendResponse({ count: svgCount });
+        sendResponse({ count: getSvgCount() });
         return true;
       }
 
@@ -117,7 +128,6 @@
         if (!settings.enabled) {
           PreviewRenderer.removeAll();
           SVGExtractor.resetScanFlags();
-          svgCount = 0;
         } else if (!wasEnabled && settings.enabled) {
           fullRescan();
         }

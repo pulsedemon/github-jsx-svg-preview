@@ -149,10 +149,19 @@
 
     const results = SVGExtractor.scan();
     const log = document.getElementById('results');
-    log.innerHTML = `<strong>Scan results:</strong> Found ${results.length} file(s) with SVGs<br>`;
+    log.textContent = '';
+
+    const header = document.createElement('strong');
+    header.textContent = `Scan results: Found ${results.length} file(s) with SVGs`;
+    log.appendChild(header);
 
     for (const { container, filePath, svgs } of results) {
-      log.innerHTML += `<br><strong>${filePath}</strong>: ${svgs.length} SVG(s) detected`;
+      log.appendChild(document.createElement('br'));
+      log.appendChild(document.createElement('br'));
+      const label = document.createElement('strong');
+      label.textContent = filePath;
+      log.appendChild(label);
+      log.appendChild(document.createTextNode(`: ${svgs.length} SVG(s) detected`));
       PreviewRenderer.inject(container, svgs, true);
     }
   </script>
