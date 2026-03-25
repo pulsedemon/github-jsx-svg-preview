@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GitHub JSX SVG Preview — Local Test</title>
+  <style>
+    :root {
+      --fgColor-default: #1f2328;
+      --fgColor-muted: #656d76;
+      --fgColor-accent: #0969da;
+      --fgColor-danger: #d1242f;
+      --bgColor-default: #ffffff;
+      --bgColor-muted: #f6f8fa;
+      --bgColor-neutral-muted: #afb8c133;
+      --bgColor-accent-muted: #ddf4ff;
+      --borderColor-default: #d1d9e0;
+      --borderColor-muted: #d1d9e080;
+      --borderColor-accent-muted: #54aeff66;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+      background: var(--bgColor-default);
+      color: var(--fgColor-default);
+    }
+    h1 { font-size: 20px; margin-bottom: 24px; }
+    .file {
+      border: 1px solid var(--borderColor-default);
+      border-radius: 6px;
+      margin-bottom: 16px;
+    }
+    .file-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 16px;
+      background: var(--bgColor-muted);
+      border-bottom: 1px solid var(--borderColor-default);
+      border-radius: 6px 6px 0 0;
+    }
+    .file-info a { font-size: 13px; font-weight: 600; }
+    .file-actions { display: flex; gap: 4px; }
+    .js-file-content table { width: 100%; border-collapse: collapse; }
+    .blob-code {
+      padding: 2px 10px;
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+      font-size: 12px;
+      white-space: pre;
+    }
+    .blob-code-addition { background: #dafbe1; }
+    .blob-code-deletion { background: #ffebe9; }
+    .blob-num { width: 50px; text-align: right; padding-right: 10px; color: #656d76; user-select: none; }
+    #results {
+      margin-top: 24px;
+      padding: 16px;
+      background: var(--bgColor-muted);
+      border-radius: 6px;
+      font-size: 13px;
+    }
+  </style>
+  <link rel="stylesheet" href="../content.css">
+</head>
+<body>
+  <h1>GitHub JSX SVG Preview — Test Harness</h1>
+
+  <!-- Test file 1: LinkedIn Icon -->
+  <div class="file" data-tagsearch-path="src/components/icons/LinkedInIcon.tsx">
+    <div class="file-header">
+      <div class="file-info"><a title="src/components/icons/LinkedInIcon.tsx">src/components/icons/LinkedInIcon.tsx</a></div>
+      <div class="file-actions"></div>
+    </div>
+    <div class="js-file-content">
+      <table>
+        <tr><td class="blob-num">1</td><td class="blob-code blob-code-addition"><span class="blob-code-inner">export function LinkedInIcon({ className }: { readonly className?: string }) {</span></td></tr>
+        <tr><td class="blob-num">2</td><td class="blob-code blob-code-addition"><span class="blob-code-inner">  return (</span></td></tr>
+        <tr><td class="blob-num">3</td><td class="blob-code blob-code-addition"><span class="blob-code-inner">    &lt;svg</span></td></tr>
+        <tr><td class="blob-num">4</td><td class="blob-code blob-code-addition"><span class="blob-code-inner">      className={className}</span></td></tr>
+        <tr><td class="blob-num">5</td><td class="blob-code blob-code-addition"><span class="blob-code-inner">      viewBox="0 0 24 24"</span></td></tr>
+        <tr><td class="blob-num">6</td><td class="blob-code blob-code-addition"><span class="blob-code-inner">      fill="currentColor"</span></td></tr>
+        <tr><td class="blob-num">7</td><td class="blob-code blob-code-addition"><span class="blob-code-inner">      xmlns="http://www.w3.org/2000/svg"</span></td></tr>
+        <tr><td class="blob-num">8</td><td class="blob-code blob-code-addition"><span class="blob-code-inner">      aria-hidden="true"</span></td></tr>
+        <tr><td class="blob-num">9</td><td class="blob-code blob-code-addition"><span class="blob-code-inner">      focusable="false"&gt;</span></td></tr>
+        <tr><td class="blob-num">10</td><td class="blob-code blob-code-addition"><span class="blob-code-inner">      &lt;path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /&gt;</span></td></tr>
+        <tr><td class="blob-num">11</td><td class="blob-code blob-code-addition"><span class="blob-code-inner">    &lt;/svg&gt;</span></td></tr>
+        <tr><td class="blob-num">12</td><td class="blob-code blob-code-addition"><span class="blob-code-inner">  );</span></td></tr>
+        <tr><td class="blob-num">13</td><td class="blob-code blob-code-addition"><span class="blob-code-inner">}</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Test file 2: Arrow Icon with stroke attributes -->
+  <div class="file" data-tagsearch-path="src/components/icons/ArrowIcon.tsx">
+    <div class="file-header">
+      <div class="file-info"><a title="src/components/icons/ArrowIcon.tsx">src/components/icons/ArrowIcon.tsx</a></div>
+      <div class="file-actions"></div>
+    </div>
+    <div class="js-file-content">
+      <table>
+        <tr><td class="blob-num">1</td><td class="blob-code blob-code-context"><span class="blob-code-inner">export const ArrowIcon = ({ ...props }) =&gt; (</span></td></tr>
+        <tr><td class="blob-num">2</td><td class="blob-code blob-code-context"><span class="blob-code-inner">  &lt;svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}&gt;</span></td></tr>
+        <tr><td class="blob-num">3</td><td class="blob-code blob-code-context"><span class="blob-code-inner">    &lt;path d="M5 12h14M12 5l7 7-7 7" /&gt;</span></td></tr>
+        <tr><td class="blob-num">4</td><td class="blob-code blob-code-context"><span class="blob-code-inner">  &lt;/svg&gt;</span></td></tr>
+        <tr><td class="blob-num">5</td><td class="blob-code blob-code-context"><span class="blob-code-inner">);</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Test file 3: Non-SVG .tsx file (should be ignored) -->
+  <div class="file" data-tagsearch-path="src/components/Button.tsx">
+    <div class="file-header">
+      <div class="file-info"><a title="src/components/Button.tsx">src/components/Button.tsx</a></div>
+      <div class="file-actions"></div>
+    </div>
+    <div class="js-file-content">
+      <table>
+        <tr><td class="blob-num">1</td><td class="blob-code"><span class="blob-code-inner">export const Button = () =&gt; &lt;button&gt;Click&lt;/button&gt;;</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Test file 4: .css file (should be ignored entirely) -->
+  <div class="file" data-tagsearch-path="src/styles.css">
+    <div class="file-header">
+      <div class="file-info"><a title="src/styles.css">src/styles.css</a></div>
+      <div class="file-actions"></div>
+    </div>
+    <div class="js-file-content">
+      <table>
+        <tr><td class="blob-num">1</td><td class="blob-code"><span class="blob-code-inner">body { margin: 0; }</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div id="results"></div>
+
+  <script src="../lib/jsx-to-svg.js"></script>
+  <script src="../lib/svg-extractor.js"></script>
+  <script src="../lib/preview-renderer.js"></script>
+  <script>
+    // Stub chrome.storage.local for testing outside extension context
+    if (typeof chrome === 'undefined' || !chrome.storage) {
+      window.chrome = {
+        storage: { local: { get: (_, cb) => cb({ enabled: true, autoPreview: true }) } },
+        runtime: { onMessage: { addListener: () => {} }, lastError: null },
+      };
+    }
+
+    const results = SVGExtractor.scan();
+    const log = document.getElementById('results');
+    log.innerHTML = `<strong>Scan results:</strong> Found ${results.length} file(s) with SVGs<br>`;
+
+    for (const { container, filePath, svgs } of results) {
+      log.innerHTML += `<br><strong>${filePath}</strong>: ${svgs.length} SVG(s) detected`;
+      PreviewRenderer.inject(container, svgs, true);
+    }
+  </script>
+</body>
+</html>
