@@ -104,6 +104,19 @@ describe('JsxToSvg.stripJsxExpressions', () => {
     expect(result).not.toContain('a=');
     expect(result).not.toContain('b=');
   });
+
+  test('handles braces inside string literals within expressions', () => {
+    const input = 'onClick={() => alert("}")} fill="red"';
+    const result = strip(input);
+    expect(result.trim()).toBe('fill="red"');
+    expect(result).not.toContain('onClick');
+  });
+
+  test('handles braces inside single-quoted strings within expressions', () => {
+    const input = "data={'{value}'} id=\"test\"";
+    const result = strip(input);
+    expect(result.trim()).toBe('id="test"');
+  });
 });
 
 describe('JsxToSvg.toElement', () => {

@@ -129,6 +129,19 @@ describe('SVGExtractor.extractSvgBlocks', () => {
     ];
     expect(extract(lines)).toHaveLength(0);
   });
+
+  test('collects outer SVG containing inner self-closing <svg />', () => {
+    const lines = [
+      '<svg viewBox="0 0 24 24">',
+      '  <svg viewBox="0 0 12 12" />',
+      '  <path d="M0 0"/>',
+      '</svg>',
+    ];
+    const result = extract(lines);
+    expect(result).toHaveLength(1);
+    expect(result[0]).toContain('<path');
+    expect(result[0]).toContain('</svg>');
+  });
 });
 
 describe('SVGExtractor.stripCommentLines', () => {
@@ -151,6 +164,11 @@ describe('SVGExtractor.stripCommentLines', () => {
 
   test('removes JSX comments', () => {
     const result = strip(['{/* jsx comment */}', 'code here']);
+    expect(result).toEqual(['code here']);
+  });
+
+  test('removes multi-line JSX comments', () => {
+    const result = strip(['{/*', '<svg viewBox="0 0 24 24"></svg>', '*/}', 'code here']);
     expect(result).toEqual(['code here']);
   });
 
