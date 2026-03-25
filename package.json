@@ -1,0 +1,13 @@
+{
+  "name": "github-jsx-svg-preview",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Chrome extension that previews inline SVGs in JSX/TSX files on GitHub pull requests.",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  }
+}
