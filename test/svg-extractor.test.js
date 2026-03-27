@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 const SVGExtractor = require('../lib/svg-extractor');
 
 describe('SVGExtractor.extractSvgBlocks', () => {
@@ -141,6 +144,137 @@ describe('SVGExtractor.extractSvgBlocks', () => {
     expect(result).toHaveLength(1);
     expect(result[0]).toContain('<path');
     expect(result[0]).toContain('</svg>');
+  });
+});
+
+describe('SVGExtractor.scan (DOM-based)', () => {
+  afterEach(() => {
+    document.body.innerHTML = '';
+    SVGExtractor.resetScanFlags();
+  });
+
+  function makeDiffLine(text, type = 'addition') {
+    return `<tr><td><code class="diff-text syntax-highlighted-line ${type}">${text}</code></td></tr>`;
+  }
+
+  test('nested new-UI containers scope SVGs to their own file', () => {
+    document.body.innerHTML = `
+      <div id="diff-abc">
+        <h3 class="file-name"><a href="#diff-abc">src/icons/AppleIcon.tsx</a></h3>
+        <table data-diff-anchor="diff-abc">
+          ${makeDiffLine('export function AppleIcon() {')}
+          ${makeDiffLine('  return (')}
+          ${makeDiffLine('    &lt;svg viewBox="0 0 24 24"&gt;')}
+          ${makeDiffLine('      &lt;path d="M18 10c0-4-3-7-7-7S4 6 4 10"/&gt;')}
+          ${makeDiffLine('    &lt;/svg&gt;')}
+          ${makeDiffLine('  );')}
+          ${makeDiffLine('}')}
+        </table>
+        <div id="diff-def">
+          <h3 class="file-name"><a href="#diff-def">src/icons/SpotifyIcon.tsx</a></h3>
+          <table data-diff-anchor="diff-def">
+            ${makeDiffLine('export function SpotifyIcon() {')}
+            ${makeDiffLine('  return (')}
+            ${makeDiffLine('    &lt;svg viewBox="0 0 24 24"&gt;')}
+            ${makeDiffLine('      &lt;circle cx="12" cy="12" r="10"/&gt;')}
+            ${makeDiffLine('    &lt;/svg&gt;')}
+            ${makeDiffLine('  );')}
+            ${makeDiffLine('}')}
+          </table>
+        </div>
+      </div>
+    `;
+
+    const results = SVGExtractor.scan();
+
+    expect(results).toHaveLength(2);
+
+    const apple = results.find(r => r.filePath.includes('AppleIcon'));
+    const spotify = results.find(r => r.filePath.includes('SpotifyIcon'));
+
+    expect(apple).toBeDefined();
+    expect(apple.svgs).toHaveLength(1);
+    expect(apple.svgs[0]).toContain('M18');
+    expect(apple.svgs[0]).not.toContain('circle');
+
+    expect(spotify).toBeDefined();
+    expect(spotify.svgs).toHaveLength(1);
+    expect(spotify.svgs[0]).toContain('circle');
+    expect(spotify.svgs[0]).not.toContain('M18');
+  });
+
+  test('sibling (non-nested) containers each get their own SVGs', () => {
+    document.body.innerHTML = `
+      <div id="diff-aaa">
+        <h3 class="file-name"><a href="#diff-aaa">src/icons/StarIcon.tsx</a></h3>
+        <table data-diff-anchor="diff-aaa">
+          ${makeDiffLine('&lt;svg viewBox="0 0 24 24"&gt;')}
+          ${makeDiffLine('  &lt;polygon points="12,2 15,9 22,9 17,14 19,22 12,17 5,22 7,14 2,9 9,9"/&gt;')}
+          ${makeDiffLine('&lt;/svg&gt;')}
+        </table>
+      </div>
+      <div id="diff-bbb">
+        <h3 class="file-name"><a href="#diff-bbb">src/icons/HeartIcon.tsx</a></h3>
+        <table data-diff-anchor="diff-bbb">
+          ${makeDiffLine('&lt;svg viewBox="0 0 24 24"&gt;')}
+          ${makeDiffLine('  &lt;path d="M12 21C12 21 4 13 4 8"/&gt;')}
+          ${makeDiffLine('&lt;/svg&gt;')}
+        </table>
+      </div>
+    `;
+
+    const results = SVGExtractor.scan();
+    expect(results).toHaveLength(2);
+
+    const star = results.find(r => r.filePath.includes('StarIcon'));
+    const heart = results.find(r => r.filePath.includes('HeartIcon'));
+
+    expect(star.svgs).toHaveLength(1);
+    expect(star.svgs[0]).toContain('polygon');
+
+    expect(heart.svgs).toHaveLength(1);
+    expect(heart.svgs[0]).toContain('M12 21');
+  });
+
+  test('nested legacy containers scope SVGs to their own file', () => {
+    document.body.innerHTML = `
+      <div class="file" data-tagsearch-path="src/icons/AppleIcon.tsx">
+        <div class="file-header">
+          <div class="file-info"><a title="src/icons/AppleIcon.tsx">src/icons/AppleIcon.tsx</a></div>
+        </div>
+        <div class="js-file-content">
+          <table>
+            <tr><td class="blob-code blob-code-addition"><span class="blob-code-inner">&lt;svg viewBox="0 0 24 24"&gt;</span></td></tr>
+            <tr><td class="blob-code blob-code-addition"><span class="blob-code-inner">  &lt;path d="M18 10"/&gt;</span></td></tr>
+            <tr><td class="blob-code blob-code-addition"><span class="blob-code-inner">&lt;/svg&gt;</span></td></tr>
+          </table>
+        </div>
+        <div class="file" data-tagsearch-path="src/icons/SpotifyIcon.tsx">
+          <div class="file-header">
+            <div class="file-info"><a title="src/icons/SpotifyIcon.tsx">src/icons/SpotifyIcon.tsx</a></div>
+          </div>
+          <div class="js-file-content">
+            <table>
+              <tr><td class="blob-code blob-code-addition"><span class="blob-code-inner">&lt;svg viewBox="0 0 24 24"&gt;</span></td></tr>
+              <tr><td class="blob-code blob-code-addition"><span class="blob-code-inner">  &lt;circle cx="12" cy="12" r="10"/&gt;</span></td></tr>
+              <tr><td class="blob-code blob-code-addition"><span class="blob-code-inner">&lt;/svg&gt;</span></td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    `;
+
+    const results = SVGExtractor.scan();
+    expect(results).toHaveLength(2);
+
+    const apple = results.find(r => r.filePath.includes('AppleIcon'));
+    const spotify = results.find(r => r.filePath.includes('SpotifyIcon'));
+
+    expect(apple.svgs).toHaveLength(1);
+    expect(apple.svgs[0]).not.toContain('circle');
+
+    expect(spotify.svgs).toHaveLength(1);
+    expect(spotify.svgs[0]).toContain('circle');
   });
 });
 

@@ -107,6 +107,40 @@
     </div>
   </div>
 
+  <!-- Test: Nested new-UI containers (AppleIcon wrapping SpotifyIcon) -->
+  <!-- Regression test: AppleIcon preview should NOT include the Spotify SVG -->
+  <div id="diff-nested-apple" style="border: 1px solid var(--borderColor-default); border-radius: 6px; margin-bottom: 16px;">
+    <h3 class="file-name" style="padding: 8px 16px; background: var(--bgColor-muted); border-bottom: 1px solid var(--borderColor-default); font-size: 13px; font-weight: 600;">
+      <a href="#diff-nested-apple">apps/launch/src/components/Icons/AppleIcon.tsx</a>
+    </h3>
+    <table data-diff-anchor="diff-nested-apple" style="width: 100%; border-collapse: collapse;">
+      <tr><td class="blob-num" style="width:50px;text-align:right;padding-right:10px;color:#656d76;">1</td><td style="padding:2px 10px;font-family:monospace;font-size:12px;white-space:pre;background:#dafbe1;"><code class="diff-text syntax-highlighted-line addition">export function AppleIcon({ className }: { readonly className?: string }) {</code></td></tr>
+      <tr><td class="blob-num">2</td><td style="padding:2px 10px;font-family:monospace;font-size:12px;white-space:pre;background:#dafbe1;"><code class="diff-text syntax-highlighted-line addition">  return (</code></td></tr>
+      <tr><td class="blob-num">3</td><td style="padding:2px 10px;font-family:monospace;font-size:12px;white-space:pre;background:#dafbe1;"><code class="diff-text syntax-highlighted-line addition">    &lt;svg className={className} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"&gt;</code></td></tr>
+      <tr><td class="blob-num">4</td><td style="padding:2px 10px;font-family:monospace;font-size:12px;white-space:pre;background:#dafbe1;"><code class="diff-text syntax-highlighted-line addition">      &lt;path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/&gt;</code></td></tr>
+      <tr><td class="blob-num">5</td><td style="padding:2px 10px;font-family:monospace;font-size:12px;white-space:pre;background:#dafbe1;"><code class="diff-text syntax-highlighted-line addition">    &lt;/svg&gt;</code></td></tr>
+      <tr><td class="blob-num">6</td><td style="padding:2px 10px;font-family:monospace;font-size:12px;white-space:pre;background:#dafbe1;"><code class="diff-text syntax-highlighted-line addition">  );</code></td></tr>
+      <tr><td class="blob-num">7</td><td style="padding:2px 10px;font-family:monospace;font-size:12px;white-space:pre;background:#dafbe1;"><code class="diff-text syntax-highlighted-line addition">}</code></td></tr>
+    </table>
+
+    <!-- Nested child diff (SpotifyIcon) — simulates new GitHub UI grouping -->
+    <div id="diff-nested-spotify" style="border: 1px solid var(--borderColor-default); border-radius: 6px; margin: 8px;">
+      <h3 class="file-name" style="padding: 8px 16px; background: var(--bgColor-muted); border-bottom: 1px solid var(--borderColor-default); font-size: 13px; font-weight: 600;">
+        <a href="#diff-nested-spotify">apps/launch/src/components/Icons/SpotifyIcon.tsx</a>
+      </h3>
+      <table data-diff-anchor="diff-nested-spotify" style="width: 100%; border-collapse: collapse;">
+        <tr><td class="blob-num" style="width:50px;text-align:right;padding-right:10px;color:#656d76;">1</td><td style="padding:2px 10px;font-family:monospace;font-size:12px;white-space:pre;background:#dafbe1;"><code class="diff-text syntax-highlighted-line addition">export function SpotifyIcon({ className }: { readonly className?: string }) {</code></td></tr>
+        <tr><td class="blob-num">2</td><td style="padding:2px 10px;font-family:monospace;font-size:12px;white-space:pre;background:#dafbe1;"><code class="diff-text syntax-highlighted-line addition">  return (</code></td></tr>
+        <tr><td class="blob-num">3</td><td style="padding:2px 10px;font-family:monospace;font-size:12px;white-space:pre;background:#dafbe1;"><code class="diff-text syntax-highlighted-line addition">    &lt;svg className={className} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"&gt;</code></td></tr>
+        <tr><td class="blob-num">4</td><td style="padding:2px 10px;font-family:monospace;font-size:12px;white-space:pre;background:#dafbe1;"><code class="diff-text syntax-highlighted-line addition">      &lt;circle cx="12" cy="12" r="10"/&gt;</code></td></tr>
+        <tr><td class="blob-num">5</td><td style="padding:2px 10px;font-family:monospace;font-size:12px;white-space:pre;background:#dafbe1;"><code class="diff-text syntax-highlighted-line addition">      &lt;path d="M8 15s1.5-2 4-2 4 2 4 2M7 12s2-3 5-3 5 3 5 3M6 9s2.5-4 6-4 6 4 6 4"/&gt;</code></td></tr>
+        <tr><td class="blob-num">6</td><td style="padding:2px 10px;font-family:monospace;font-size:12px;white-space:pre;background:#dafbe1;"><code class="diff-text syntax-highlighted-line addition">    &lt;/svg&gt;</code></td></tr>
+        <tr><td class="blob-num">7</td><td style="padding:2px 10px;font-family:monospace;font-size:12px;white-space:pre;background:#dafbe1;"><code class="diff-text syntax-highlighted-line addition">  );</code></td></tr>
+        <tr><td class="blob-num">8</td><td style="padding:2px 10px;font-family:monospace;font-size:12px;white-space:pre;background:#dafbe1;"><code class="diff-text syntax-highlighted-line addition">}</code></td></tr>
+      </table>
+    </div>
+  </div>
+
   <!-- Test file 3: Non-SVG .tsx file (should be ignored) -->
   <div class="file" data-tagsearch-path="src/components/Button.tsx">
     <div class="file-header">
